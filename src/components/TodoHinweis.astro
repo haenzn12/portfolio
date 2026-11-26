@@ -1,0 +1,15 @@
+---
+/**
+ * Gelbe Hinweisbox für Platzhalter und offene Aufgaben.
+ * Entfernen, sobald der echte Inhalt steht.
+ */
+interface Props {
+  titel?: string;
+}
+const { titel = 'TODO' } = Astro.props;
+---
+
+<div class="platzhalter" role="note">
+  <strong>{titel}:</strong>
+  <slot />
+</div>

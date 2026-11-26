@@ -1,0 +1,55 @@
+---
+/**
+ * Startseite ( / )
+ * Hero-Bereich + ausgewählte Case Studies (featured: true).
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
+import { site } from '../data/site';
+
+const ausgewaehlt = (await getCollection('case-studies', ({ data }) => data.featured)).sort(
+  (a, b) => a.data.reihenfolge - b.data.reihenfolge,
+);
+---
+
+<BaseLayout description="Hannah Zobel, Product Designerin. Ausgewählte Arbeiten und Case Studies. (Platzhalter)">
+  <section class="container section hero" aria-labelledby="hero-titel">
+    <h1 id="hero-titel">{site.name}</h1>
+    <p class="lead">{site.rolle}</p>
+    <p class="prose">Platzhalter: Ein Satz darüber, was ich gestalte und wofür ich stehe.</p>
+  </section>
+
+  <section class="container section" aria-labelledby="arbeiten-titel">
+    <h2 id="arbeiten-titel">Ausgewählte Arbeiten</h2>
+    <ul class="grid" role="list">
+      {
+        ausgewaehlt.map((eintrag) => (
+          <li>
+            <CaseStudyCard eintrag={eintrag} ebene="h3" />
+          </li>
+        ))
+      }
+    </ul>
+    <p><a href="/arbeiten/">Alle Arbeiten ansehen</a></p>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-9) var(--space-7);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-5);
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-6);
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+</style>

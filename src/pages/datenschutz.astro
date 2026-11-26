@@ -1,0 +1,19 @@
+---
+/**
+ * Datenschutzerklärung ( /datenschutz/ )
+ * ACHTUNG: Rechtlich erforderlich, bevor die Seite öffentlich online geht.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TodoHinweis from '../components/TodoHinweis.astro';
+---
+
+<BaseLayout title="Datenschutz" description="Datenschutzerklärung der Website von Hannah Zobel.">
+  <div class="container section prose">
+    <h1>Datenschutzerklärung</h1>
+    <TodoHinweis titel="TODO – vor Veröffentlichung ausfüllen">
+      Hier fehlt noch die Datenschutzerklärung (u. a. Verantwortliche Stelle, Hosting bei Vercel,
+      Server-Logfiles). Die Website nutzt derzeit keine Cookies, kein Tracking und keine externen
+      Schriftarten oder CDNs.
+    </TodoHinweis>
+  </div>
+</BaseLayout>

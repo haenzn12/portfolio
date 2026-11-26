@@ -1,0 +1,69 @@
+---
+/**
+ * Vorschau-Kachel einer Case Study (für Startseite und /arbeiten).
+ */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  eintrag: CollectionEntry<'case-studies'>;
+  /** Überschriften-Ebene, damit die Gliederung der Seite stimmt */
+  ebene?: 'h2' | 'h3';
+}
+
+const { eintrag, ebene = 'h2' } = Astro.props;
+const { title, kurzbeschreibung, firma, tags } = eintrag.data;
+const Heading = ebene;
+---
+
+<article class="card">
+  <Heading class="card-title">
+    <a href={`/arbeiten/${eintrag.id}/`}>{title}</a>
+  </Heading>
+  <p class="muted card-meta">{firma}</p>
+  <p>{kurzbeschreibung}</p>
+  {
+    tags.length > 0 && (
+      <ul class="tags" aria-label="Schlagworte">
+        {tags.map((tag) => (
+          <li>{tag}</li>
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .card {
+    position: relative;
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+  }
+
+  .card-title {
+    font-size: var(--font-size-md);
+    margin: 0 0 var(--space-2);
+  }
+
+  /* Ganze Kachel klickbar, Link bleibt aber der einzige Fokuspunkt */
+  .card-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .card:focus-within {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  .card-title a:focus-visible {
+    outline: none;
+  }
+
+  .card-meta {
+    margin-bottom: var(--space-3);
+    font-size: var(--font-size-sm);
+  }
+</style>

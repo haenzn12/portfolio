@@ -1,0 +1,138 @@
+---
+/**
+ * Kopfbereich mit Name/Logo und Hauptnavigation.
+ * - Aktiver Menüpunkt wird mit aria-current="page" markiert.
+ * - Auf kleinen Bildschirmen klappt das Menü über einen Button auf.
+ *   Ohne JavaScript bleibt die Navigation einfach sichtbar.
+ */
+import { navigation, site } from '../data/site';
+
+const pfad = Astro.url.pathname;
+const istAktiv = (href: string) => pfad === href || pfad.startsWith(href) || `${pfad}/` === href;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/">{site.name}</a>
+
+    <nav aria-label="Hauptnavigation">
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="hauptmenue"
+      >
+        Menü
+      </button>
+      <ul id="hauptmenue" class="nav-list">
+        {
+          navigation.map((item) => (
+            <li>
+              <a href={item.href} aria-current={istAktiv(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Mobiles Menü: Button öffnet/schließt die Liste, Escape schließt sie.
+  const button = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  if (button) {
+    const setOpen = (open: boolean) => button.setAttribute('aria-expanded', String(open));
+    button.addEventListener('click', () => {
+      setOpen(button.getAttribute('aria-expanded') !== 'true');
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        button.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-block: var(--space-4);
+  }
+
+  .brand {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-list a {
+    color: var(--color-text);
+    text-decoration: none;
+    padding-block: var(--space-1);
+    border-bottom: 2px solid transparent;
+    transition: border-color var(--duration-fast) var(--easing);
+  }
+
+  .nav-list a:hover {
+    border-color: var(--color-border);
+  }
+
+  .nav-list a[aria-current='page'] {
+    border-color: var(--color-text);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .menu-toggle {
+    display: none;
+    font: inherit;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-text);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+
+  /* Mobile Ansicht (nur mit JavaScript wird das Menü eingeklappt) */
+  @media (max-width: 40rem) {
+    :global(.js) .menu-toggle {
+      display: inline-block;
+    }
+
+    :global(.js) nav {
+      display: contents;
+    }
+
+    :global(.js) .nav-list {
+      display: none;
+      flex-basis: 100%;
+      flex-direction: column;
+      padding-block: var(--space-3);
+    }
+
+    :global(.js) .menu-toggle[aria-expanded='true'] + .nav-list {
+      display: flex;
+    }
+  }
+</style>

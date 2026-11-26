@@ -1,0 +1,40 @@
+---
+/**
+ * Übersicht aller Case Studies ( /arbeiten/ )
+ * Sortiert nach dem Feld "reihenfolge".
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaseStudyCard from '../../components/CaseStudyCard.astro';
+
+const alle = (await getCollection('case-studies')).sort(
+  (a, b) => a.data.reihenfolge - b.data.reihenfolge,
+);
+---
+
+<BaseLayout title="Arbeiten" description="Übersicht aller Case Studies von Hannah Zobel. (Platzhalter)">
+  <div class="container section">
+    <h1>Arbeiten</h1>
+    <p class="lead prose">Platzhalter: Kurze Einleitung zu den Projekten.</p>
+    <ul class="grid" role="list">
+      {
+        alle.map((eintrag) => (
+          <li>
+            <CaseStudyCard eintrag={eintrag} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-5);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0 0;
+  }
+</style>

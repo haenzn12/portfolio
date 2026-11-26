@@ -1,0 +1,20 @@
+---
+/**
+ * Impressum ( /impressum/ )
+ * ACHTUNG: Rechtlich erforderlich, bevor die Seite öffentlich online geht.
+ * Persönliche Angaben (Adresse etc.) NICHT ins Repository committen, bevor
+ * entschieden ist, wie sie veröffentlicht werden sollen.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TodoHinweis from '../components/TodoHinweis.astro';
+---
+
+<BaseLayout title="Impressum" description="Impressum der Website von Hannah Zobel.">
+  <div class="container section prose">
+    <h1>Impressum</h1>
+    <TodoHinweis titel="TODO – vor Veröffentlichung ausfüllen">
+      Hier fehlen noch die gesetzlich vorgeschriebenen Angaben (§ 5 DDG). Diese Seite ist ein
+      Platzhalter und enthält bewusst keine Adresse oder Telefonnummer.
+    </TodoHinweis>
+  </div>
+</BaseLayout>

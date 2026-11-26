@@ -1,0 +1,62 @@
+---
+/**
+ * Grundlayout für ALLE Seiten.
+ * Enthält: <head> mit SEO-Tags, Skip-Link, Header, Hauptbereich, Footer.
+ *
+ * Verwendung in einer Seite:
+ *   <BaseLayout title="Arbeiten" description="…"> Inhalt </BaseLayout>
+ */
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  /** Seitentitel. Wird zu "{title} – Hannah Zobel". Weglassen = Startseite. */
+  title?: string;
+  /** Meta-Description für Suchmaschinen und Link-Vorschauen */
+  description?: string;
+  /** Open-Graph-Typ, z. B. "article" für Case Studies */
+  ogType?: 'website' | 'article';
+  /** true = Seite nicht in Suchmaschinen aufnehmen (z. B. 404) */
+  noindex?: boolean;
+}
+
+const { title, description = site.beschreibung, ogType = 'website', noindex = false } = Astro.props;
+
+const fullTitle = title ? `${title} – ${site.name}` : `${site.name} – ${site.rolle}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <!-- Open Graph (Link-Vorschau z. B. auf LinkedIn) -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={site.locale} />
+    <!-- TODO: og:image ergänzen, sobald ein Vorschaubild existiert -->
+
+    <!-- Markiert, dass JavaScript verfügbar ist (für das mobile Menü). -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+    <Header />
+    <main id="inhalt" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

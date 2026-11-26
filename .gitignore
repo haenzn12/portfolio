@@ -1,0 +1,16 @@
+# Abhängigkeiten (werden per `npm install` neu erzeugt)
+node_modules/
+
+# Build-Ergebnis und Astro-Cache
+dist/
+.astro/
+
+# Umgebungsvariablen / Geheimnisse – niemals committen
+.env
+.env.*
+
+# Systemdateien
+.DS_Store
+
+# Logs
+npm-debug.log*

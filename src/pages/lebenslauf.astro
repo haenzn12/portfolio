@@ -1,0 +1,104 @@
+---
+/**
+ * Lebenslauf ( /lebenslauf/ )
+ * ALLE Inhalte kommen aus src/data/cv.ts – hier nichts direkt eintragen.
+ * Angezeigt wird die deutsche Fassung (Feld "de").
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { cv, type CvStation } from '../data/cv';
+
+const lang = 'de' as const;
+const abschnitte: { titel: string; stationen: CvStation[] }[] = [
+  { titel: 'Berufserfahrung', stationen: cv.erfahrung },
+  { titel: 'Ausbildung', stationen: cv.ausbildung },
+];
+---
+
+<BaseLayout title="Lebenslauf" description="Lebenslauf von Hannah Zobel, Product Designerin. (Platzhalter)">
+  <div class="container section prose">
+    <h1>Lebenslauf</h1>
+    <p class="lead">{cv.name} · {cv.rolle[lang]}</p>
+    <p>{cv.zusammenfassung[lang]}</p>
+
+    <!--
+      TODO: PDF-Download (DE/EN). Wird später aus src/data/cv.ts erzeugt.
+      Sobald die PDFs existieren, das "hidden"-Attribut entfernen.
+    -->
+    <p hidden data-cv-download>
+      <a href="/lebenslauf-hannah-zobel-de.pdf" download>Lebenslauf als PDF (Deutsch)</a> ·
+      <a href="/lebenslauf-hannah-zobel-en.pdf" download hreflang="en">CV as PDF (English)</a>
+    </p>
+
+    {
+      abschnitte.map(({ titel, stationen }) => (
+        <section>
+          <h2>{titel}</h2>
+          <ol class="stationen" role="list">
+            {stationen.map((s) => (
+              <li>
+                <h3>
+                  {s.titel[lang]} · {s.organisation}
+                </h3>
+                <p class="muted">
+                  {s.zeitraum[lang]}
+                  {s.ort && <> · {s.ort[lang]}</>}
+                </p>
+                {s.punkte.length > 0 && (
+                  <ul>
+                    {s.punkte.map((p) => (
+                      <li>{p[lang]}</li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+
+    <section>
+      <h2>Skills</h2>
+      <dl>
+        {
+          cv.skills.map((gruppe) => (
+            <>
+              <dt>{gruppe.titel[lang]}</dt>
+              <dd>{gruppe.eintraege.map((e) => e[lang]).join(', ')}</dd>
+            </>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section>
+      <h2>Sprachen</h2>
+      <ul>
+        {cv.sprachen.map((s) => <li>{s.sprache[lang]}: {s.niveau[lang]}</li>)}
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .stationen {
+    list-style: none;
+    padding: 0;
+  }
+
+  .stationen > li + li {
+    margin-top: var(--space-5);
+  }
+
+  .stationen h3 {
+    margin: 0 0 var(--space-1);
+  }
+
+  dt {
+    font-weight: var(--font-weight-bold);
+  }
+
+  dd {
+    margin: 0 0 var(--space-3);
+  }
+</style>

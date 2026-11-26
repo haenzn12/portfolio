@@ -1,0 +1,14 @@
+---
+/**
+ * Fehlerseite, wenn eine Adresse nicht existiert.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Seite nicht gefunden" description="Diese Seite existiert nicht." noindex>
+  <div class="container section prose">
+    <h1>Seite nicht gefunden</h1>
+    <p class="lead">Diese Seite gibt es leider nicht (mehr).</p>
+    <p><a href="/">Zur Startseite</a> oder <a href="/arbeiten/">zu meinen Arbeiten</a>.</p>
+  </div>
+</BaseLayout>

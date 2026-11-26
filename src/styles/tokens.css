@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Design-Tokens – bewusst NEUTRALE Platzhalter.
+   --------------------------------------------------------------------------
+   Hier wird später die eigentliche Designrichtung festgelegt (Farben,
+   Schriften, Abstände). Alle Komponenten verwenden nur diese Variablen,
+   d. h. eine Änderung hier wirkt sich auf die ganze Website aus.
+   ========================================================================== */
+
+:root {
+  /* --- Farben (Kontraste geprüft: Text auf Hintergrund ≥ 4.5:1) --- */
+  --color-bg: #ffffff;
+  --color-surface: #f4f4f5;
+  --color-text: #1f1f1f;          /* ~16:1 auf Weiß */
+  --color-text-muted: #52525b;    /* ~7.7:1 auf Weiß */
+  --color-border: #d4d4d8;
+  --color-accent: #1d4ed8;        /* Links, ~6.7:1 auf Weiß */
+  --color-accent-contrast: #ffffff;
+  --color-focus: #1d4ed8;
+  --color-todo-bg: #fef9c3;       /* Hinweisboxen für Platzhalter */
+  --color-todo-border: #a16207;
+  --color-todo-text: #422006;
+
+  /* --- Typografie ---
+     Systemschriften, bis eigene Fonts (selbst gehostet, DSGVO) feststehen. */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Typo-Skala (ca. Faktor 1.25) */
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.25rem;
+  --font-size-lg: 1.5625rem;
+  --font-size-xl: 1.953rem;
+  --font-size-2xl: clamp(2rem, 1.5rem + 2.5vw, 3.052rem);
+
+  --line-height-tight: 1.2;
+  --line-height-base: 1.6;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+
+  /* --- Abstände (Spacing-Skala) --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* --- Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* --- Layout --- */
+  --content-width: 72rem;   /* maximale Seitenbreite */
+  --prose-width: 42rem;     /* angenehme Zeilenlänge für Fließtext */
+  --gutter: clamp(1rem, 4vw, 2rem);
+
+  /* --- Bewegung --- */
+  --duration-fast: 150ms;
+  --easing: ease-out;
+}
+
+/* Wer reduzierte Bewegung eingestellt hat, bekommt keine Animationen. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+  }
+}
